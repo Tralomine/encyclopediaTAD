@@ -20,6 +20,17 @@ Wiki del(Wiki w, Id id);
 
 Entry search(Wiki w, Id id);
 
-Entry searchTxt(Wiki w, char* txt);
+Wiki searchTxt(Wiki w, char* txt);
 
 void destroy(Wiki w);
+
+void printWiki(Wiki w);
+
+
+//utility functions
+
+void printEntry(Entry e);
+
+Wiki loadFile(char* file);
+
+unsigned long hash(char*, size_t n);

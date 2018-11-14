@@ -1,21 +1,13 @@
-
-
 #include <stdlib.h>
-#include "wiki.h"
-
-Wiki loadFile(char* file) {
-  Wiki wiki = createWiki();
-  
-  Entry e;
-  e.id = 0;
-  wiki = insert(wiki, e);
-
-  return wiki;
-}
-
+#include <string.h>
+#include "common.c"
 
 
 int main(int argc, char const *argv[]) {
-  /* code */
+  Wiki w = loadFile("wikipedia_500.dat");
+  printEntry(search(w, 4315895));
+  Wiki searchResult = searchTxt(w, "Syrie");
+  printWiki(searchResult);
   return 0;
+
 }
