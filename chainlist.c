@@ -70,7 +70,7 @@ Wiki searchTxt(Wiki w, char* txt){
   while (w) {
     if (strstr(w->entry.content, txt)){ // the function strstr returns an empty pointor if the txt is not contained in the content's entry
     // as the entry's content necessarily contains the title, we do not need to check the latter
-      insert(result, w->entry); // inserts the entry in the results
+      result = insert(result, w->entry); // inserts the entry in the results
     }
     w = w->next;
   }
@@ -78,8 +78,10 @@ Wiki searchTxt(Wiki w, char* txt){
 }
 
 void destroy(Wiki w){
-  while (w){
+  while (w) {
     Wiki temp = w->next;
+    free(w->entry.title);
+    free(w->entry.content);
     free(w);
     w = temp;
   }
