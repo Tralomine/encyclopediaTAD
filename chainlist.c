@@ -17,6 +17,7 @@ Wiki createWiki()
 /* The function "insert" creates a new link NewWiki, allocates enough memory for a new Link,
    fills its entry with the wanted value e, then links the NewWiki's adress to the rest
    of the chain */
+
 Wiki insert(Wiki w, Entry  e)
 {
   Wiki newWiki;
@@ -57,16 +58,15 @@ Wiki del(Wiki w, Id id)
 
 Entry search(Wiki w, Id id)
 {
+  while (w->entry.id != id && w != NULL) {
+    w = w->next;
+  }
   if (w == NULL) {
     Entry e; // if the wiki is empty, returns an empty entry created on the spot
     e.id = 0;
     return e;
   }
-  if (w->entry.id == id){ // if it isn't, scans the list in search of the wanted entry
-    return w->entry;
-  } else {
-    return search(w->next, id); // launches recursively the function with the next link
-  }
+  return w->entry;
 }
 
 Wiki searchTxt(Wiki w, char* txt)
@@ -85,7 +85,7 @@ Wiki searchTxt(Wiki w, char* txt)
 void destroy(Wiki w)
 {
   while (w) {
-    Wiki temp = w->next;
+    Wiki temp = w->next; // temp keeps in memory the next link to get to it once the selected link has been deleted
     free(w->entry.title);
     free(w->entry.content);
     free(w);
@@ -95,8 +95,8 @@ void destroy(Wiki w)
 
 void printWiki(Wiki w)
 {
-  if (w) {
-    printEntry(w->entry);
-    printWiki(w->next);
+  while (w) {
+    printEntry(w->entry); // the printEntry function is located in common.c
+    w = w->next;
   }
 }
