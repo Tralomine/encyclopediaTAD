@@ -1,5 +1,9 @@
 #include <stdlib.h>
 
+typedef int bool;
+#define true 1;
+#define false 0;
+
 typedef size_t Id;
 
 typedef struct EntrySt {
@@ -32,5 +36,3 @@ void printWiki(Wiki w);
 void printEntry(Entry e);
 
 Wiki loadFile(char* file);
-
-unsigned long hash(char*, size_t n);

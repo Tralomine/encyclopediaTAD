@@ -23,12 +23,52 @@ Wiki insert(Wiki w, Entry e)
   } else {
     w = malloc(sizeof(struct WikiSt));
     w->e = e;
+    w->s1 = NULL;
+    w->s2 = NULL;
   }
   return w;
 }
 
 Wiki del(Wiki w, Id id)
 {
+  if (w) {
+    if (w->e.id > id) {
+      w->s1 = del(w->s1, id);
+    } else if (w->e.id < id) {
+      w->s2 = del(w->s2, id);
+    } else {
+      //deleting w
+      //case where s2 doesn't exist
+      Wiki replace = w->s2;
+      if (!replace) {
+        replace = w->s1;
+        w->s1 = NULL;
+        destroy(w);
+        return replace;
+      }
+      //case where s2 as no s1 child
+      if (!replace->s1) {
+        replace->s1 = w->s1;
+        w->s1 = NULL;
+        w->s2 = NULL;
+        destroy(w);
+        return replace;
+      }
+      //other cases
+      Wiki prev = replace;
+      while (replace->s1) {
+        prev = replace;
+        replace = replace->s1;
+      }
+      prev->s1 = replace->s2;
+      replace->s1 = w->s1;
+      replace->s2 = w->s2;
+      w->s1 = NULL;
+      w->s2 = NULL;
+      destroy(w);
+      return replace;
+    }
+  }
   return w;
 }
 

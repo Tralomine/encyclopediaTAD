@@ -4,7 +4,7 @@
 #include "wiki.h"
 
 void printEntry(Entry e) {
-  printf("%lu: %s\n\t %s\n\n", e.id, e.title, e.content);
+  printf("%lu: %s\n\t %s\n\n", e.id, e.title, e.content+strlen(e.title)+2); //removing the title that start the article
 }
 
 Wiki loadFile(char* file) {
