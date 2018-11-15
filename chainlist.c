@@ -86,8 +86,7 @@ void destroy(Wiki w)
 {
   while (w) {
     Wiki temp = w->next;
-    free(w->entry.title);
-    free(w->entry.content);
+    freeEntry(w->entry);
     free(w);
     w = temp;
   }

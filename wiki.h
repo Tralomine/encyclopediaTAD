@@ -18,7 +18,7 @@ typedef struct WikiSt* Wiki;
 
 Wiki createWiki();
 
-Wiki insert(Wiki w, Entry  e);
+Wiki insert(Wiki w, Entry e);
 
 Wiki del(Wiki w, Id id);
 
@@ -34,5 +34,7 @@ void printWiki(Wiki w);
 //utility functions
 
 void printEntry(Entry e);
+
+void freeEntry(Entry e);
 
 Wiki loadFile(char* file);
