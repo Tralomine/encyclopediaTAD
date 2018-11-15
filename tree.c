@@ -111,8 +111,7 @@ void destroy(Wiki w)
   if(w) {
     destroy(w->s1);
     destroy(w->s2);
-    free(w->e.title);
-    free(w->e.content);
+    freeEntry(w->e);
     free(w);
   }
 }
