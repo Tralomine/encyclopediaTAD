@@ -85,8 +85,7 @@ void destroy(Wiki w)
 {
   while (w) {
     Wiki temp = w->next; // temp keeps in memory the next link to get to it once the selected link has been deleted
-    free(w->entry.title);
-    free(w->entry.content);
+    freeEntry(w->entry);
     free(w);
     w = temp;
   }

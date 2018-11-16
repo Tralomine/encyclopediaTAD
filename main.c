@@ -13,8 +13,8 @@ int main(int argc, char const *argv[]) {
   printEntry(search(w, 4315895));
 
   printf("===========================================\n");
-  printf("searching for Evangelion in all articles\n\n");
-  Wiki searchResult = searchTxt(w, "Evangelion");
+  printf("searching for Kladno in all articles\n\n");
+  Wiki searchResult = searchTxt(w, "Kladno");
   printWiki(searchResult);
 
   printf("===========================================\n");
