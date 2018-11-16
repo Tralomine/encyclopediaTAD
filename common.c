@@ -20,40 +20,43 @@ Wiki loadFile(char* file) {
   if (fp!=NULL) {
 
     char c = 0;
-    long start, size;
+    long start;
+    size_t size;
     int i = 0;
     do {
       if (!(i%10000)) {
          putc('.', stdout);
          fflush(stdout);
       }
-      i++;
+
       Entry e;
       fscanf(fp, "%lu", &(e.id));
 
       if (fgetc(fp) == EOF) break;  //eating the first '|'
 
-      for (start = ftell(fp); c != '|' && c != EOF; c = getc(fp)){}
+      for (start = ftell(fp); c != '|' && c != EOF; c = (char)getc(fp)){}
       if (c != EOF) {
-        size = ftell(fp)-start;
+        size = (unsigned)(ftell(fp)-start);
         e.title = calloc(size+1, sizeof(char));
         fseek(fp, start, SEEK_SET);
         fread(e.title, sizeof(char), size-1, fp);
       }
+      fgetc(fp);
+      fgetc(fp);
 
-      for (start = ftell(fp); c != '\n' && c != EOF; c = getc(fp)){}
+      for (start = ftell(fp); c != '\n' && c != EOF; c = (char)getc(fp)){}
       if (c != EOF) {
-        size = ftell(fp)-start;
+        size = (unsigned)(ftell(fp)-start);
         e.content = calloc(size+1, sizeof(char));
         fseek(fp, start, SEEK_SET);
         fread(e.content, sizeof(char), size-1, fp);
       }
 
       wiki = insert(wiki, e);
-
+      i++;
     } while (c != EOF);
 
-    printf("loaded %d entries", i);
+    printf("loaded %d entries\n", i);
 
     fclose (fp);
   }

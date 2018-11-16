@@ -33,7 +33,7 @@ Wiki del(Wiki w, Id id)
   /* The function "del" first creates a new Wiki mem, that will be returned at the end once the
   wanted link will have been deleted.  */
   Wiki mem = w;
-  Wiki prev; // used to link the rest of the chained list after the removal of the wanted link
+  Wiki prev = w; // used to link the rest of the chained list after the removal of the wanted link
   while (w) {
     if (w->entry.id != id) {
       prev = w; // prev is used to keep in memory the previous link while the link to delete has not been reached
@@ -74,7 +74,7 @@ Wiki searchTxt(Wiki w, char* txt)
   while (w) {
     if (strstr(w->entry.content, txt)) { // the function strstr returns an empty pointor if the txt is not contained in the content's entry
     // as the entry's content necessarily contains the title, we do not need to check the latter
-      result = insert(result, w->entry); // inserts the entry in the results
+      result = insert(result, copyEntry(w->entry)); // inserts the entry in the results
     }
     w = w->next;
   }

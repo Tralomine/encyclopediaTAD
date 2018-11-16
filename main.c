@@ -3,23 +3,23 @@
 #include "common.c"
 
 
-int main(int argc, char const *argv[]) {
+int main() {
 
-  Wiki w = loadFile("wikipedia_500.dat");
-  // Wiki w = loadFile("B46_wikipedia_500K_random.dat");
-
-  printf("===========================================\n");
-  printf("printing entry 4315895\n\n");
-  printEntry(search(w, 4315895));
+  // Wiki w = loadFile("wikipedia_500.dat");
+  Wiki w = loadFile("B46_wikipedia_500K_random.dat");
 
   printf("===========================================\n");
-  printf("searching for Kladno in all articles\n\n");
-  Wiki searchResult = searchTxt(w, "Kladno");
+  printf("printing entry 502098\n\n");
+  printEntry(search(w, 502098));
+
+  printf("===========================================\n");
+  printf("searching for Neon Genesis Evangelion in all articles\n\n");
+  Wiki searchResult = searchTxt(w, "Neon Genesis Evangelion");
   printWiki(searchResult);
 
   printf("===========================================\n");
-  printf("deleting element 6390869\n\n");
-  del(searchResult, 6390869);
+  printf("deleting element 502098 from search results\n\n");
+  del(searchResult, 502098);
   // printWiki(searchResult);
 
   destroy(w);

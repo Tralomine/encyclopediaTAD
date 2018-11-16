@@ -1,5 +1,5 @@
-COMP := gcc
-FLAGS := -std=c11 -g
+COMP := clang
+FLAGS := -std=c11 -g -Weverything
 
 all: tree chainlist hashtable
 

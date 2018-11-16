@@ -88,19 +88,7 @@ Entry search(Wiki w, Id id)
   }
 }
 
-Wiki insertSearchTxtWiki(Wiki w, Wiki ws, char* txt)
-{
-  // The "ws" (for WikiSearch) serves the purpose of the selected wiki that is scanned
-  // Whereas "w" is the wiki that is progressively filled with the entries that match our search
-  if (ws) {
-    if (strstr(ws->e.content, txt)) {
-      w = insert(w, ws->e);
-    }
-    w = insertSearchTxtWiki(w, ws->s1, txt);
-    w = insertSearchTxtWiki(w, ws->s2, txt);
-  }
-  return w;
-}
+Wiki insertSearchTxtWiki(Wiki w, Wiki ws, char* txt);
 
 Wiki searchTxt(Wiki w, char* txt)
 {
@@ -108,6 +96,19 @@ Wiki searchTxt(Wiki w, char* txt)
   return insertSearchTxtWiki(ret, w, txt);
 }
 
+Wiki insertSearchTxtWiki(Wiki w, Wiki ws, char* txt)
+{
+  // The "ws" (for WikiSearch) serves the purpose of the selected wiki that is scanned
+  // Whereas "w" is the wiki that is progressively filled with the entries that match our search
+  if (ws) {
+    if (strstr(ws->e.content, txt)) {
+      w = insert(w, copyEntry(ws->e));
+    }
+    w = insertSearchTxtWiki(w, ws->s1, txt);
+    w = insertSearchTxtWiki(w, ws->s2, txt);
+  }
+  return w;
+}
 
 void destroy(Wiki w)
 {
