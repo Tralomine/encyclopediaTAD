@@ -21,11 +21,17 @@ Wiki loadFile(char* file) {
 
     char c = 0;
     long start, size;
+    int i = 0;
     do {
+      if (!(i%10000)) {
+         putc('.', stdout);
+         fflush(stdout);
+      }
+      i++;
       Entry e;
       fscanf(fp, "%lu", &(e.id));
 
-      fgetc(fp);  //eating the first '|'
+      if (fgetc(fp) == EOF) break;  //eating the first '|'
 
       for (start = ftell(fp); c != '|' && c != EOF; c = getc(fp)){}
       if (c != EOF) {
@@ -33,8 +39,6 @@ Wiki loadFile(char* file) {
         e.title = calloc(size+1, sizeof(char));
         fseek(fp, start, SEEK_SET);
         fread(e.title, sizeof(char), size-1, fp);
-      } else {
-        e.id = 0;
       }
 
       for (start = ftell(fp); c != '\n' && c != EOF; c = getc(fp)){}
@@ -43,13 +47,13 @@ Wiki loadFile(char* file) {
         e.content = calloc(size+1, sizeof(char));
         fseek(fp, start, SEEK_SET);
         fread(e.content, sizeof(char), size-1, fp);
-      } else {
-        e.id = 0;
       }
 
       wiki = insert(wiki, e);
 
     } while (c != EOF);
+
+    printf("loaded %d entries", i);
 
     fclose (fp);
   }
