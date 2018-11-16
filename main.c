@@ -20,10 +20,13 @@ int main() {
   printf("===========================================\n");
   printf("deleting element 502098 from search results\n\n");
   del(searchResult, 502098);
-  // printWiki(searchResult);
+
+  destroy(searchResult);
+  // printWikiSearch(searchResult, "Neon Genesis Evangelion");
+
+  stats(w);
 
   destroy(w);
-  destroy(searchResult);
 
   return 0;
 }

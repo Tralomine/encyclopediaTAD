@@ -109,8 +109,6 @@ void freeEntry(Entry e);
 /*
  * @param file: char* - The name of the file to load.
  *
- *
- *
  * @post-condition: The file has been loaded and can be used in the main.
  */
 Wiki loadFile(char* file);
@@ -123,3 +121,38 @@ Wiki loadFile(char* file);
  * @invariant: The wiki exists.
  */
 Entry copyEntry(Entry e);
+
+
+
+/*
+ * @param w: Wiki - The wiki to be printed
+ * @param str: Char* - The string to outline
+ *
+ * Prints every entries in the selected Wiki, with str outlined
+ *
+ * @invariant: The wiki exists.
+ */
+void printWikiSearch(Wiki w, char* str);
+
+/*
+ * @param e: Entry - The entry to be printed
+ * @param str: Char* - The string to outline
+ *
+ * Prints the ID, the title and the content of the selected entry, with str outlined
+ *
+ * @invariant: The wiki exists.
+ */
+void printEntrySearch(Entry e, char* str);
+
+
+/*
+ * @param w: Wiki - The wiki whose stats are printed
+ *
+ * print
+ *
+ * @invariant: The wiki exists and is inchanged.
+ */
+void stats(Wiki w);
+
+
+int max(int a, int b);

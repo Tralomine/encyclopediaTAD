@@ -98,3 +98,17 @@ void printWiki(Wiki w)
     w = w->next;
   }
 }
+
+void printWikiSearch(Wiki w, char* str)
+{
+  while (w) {
+    printEntrySearch(w->entry, str); // the printEntry function is located in common.c
+    w = w->next;
+  }
+}
+
+
+void stats(Wiki w)
+{
+  
+}

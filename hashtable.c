@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "wiki.h"
 #include "string.h"
 
@@ -97,4 +98,35 @@ void printWiki(Wiki w)
       l = l->next;
     }
   }
+}
+
+void printWikiSearch(Wiki w, char* str)
+{
+  for (size_t i = 0; i < TABLE_SIZE; i++) {
+    ChainedList l = w->table[i];
+    while (l) {
+      printEntrySearch(l->entry, str);
+      l = l->next;
+    }
+  }
+}
+
+
+void stats(Wiki w)
+{
+  int filledCells = 0;
+  int longuestList = 0;
+  ChainedList l;
+  for (size_t i = 0; i < TABLE_SIZE; i++) {
+    if ((l = w->table[i])) {
+      filledCells++;
+      int cur = 0;
+      while (l) {
+        cur++;
+        l = l->next;
+      }
+      if (cur > longuestList) longuestList = cur;
+    }
+  }
+  printf("size: %d\nfilled cells: %d\nlonguest list: %d\n", TABLE_SIZE, filledCells, longuestList);
 }

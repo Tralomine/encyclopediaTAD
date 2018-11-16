@@ -12,6 +12,39 @@ void printEntry(Entry e) {
                               );
 }
 
+
+void printEntrySearch(Entry e, char* str)
+{
+  int length = strlen(str);
+  char* found = e.title;
+  char* endOfLast = found;
+  while ((found = strstr(found, str))) {
+    if (found > endOfLast) {
+      int length2 = found-endOfLast;
+      printf("%*.*s", length2, length2, endOfLast);
+      printf("\x1b[31m%*.*s\x1b[0m", length, length, found);
+      found += length;
+      endOfLast = found;
+    }
+  }
+  printf("%s", endOfLast);
+  printf(": ");
+  found = e.content + strlen(e.title)+2;
+  endOfLast = found;
+  while ((found = strstr(found, str))) {
+    if (found > endOfLast) {
+      int length2 = found-endOfLast;
+      printf("%*.*s", length2, length2, endOfLast);
+      printf("\x1b[31m%*.*s\x1b[0m", length, length, found);
+      found += length;
+      endOfLast = found;
+    }
+  }
+  printf("%s\n\n", endOfLast);
+  // printf("%s: %s\n\n",e.title, e.content+(e.id?strlen(e.title)+2:0));
+}
+
+
 Wiki loadFile(char* file) {
   Wiki wiki = createWiki();
 
@@ -81,4 +114,10 @@ inline Entry copyEntry(Entry e)
   r.content = malloc(sizeof(char)*(strlen(e.content)+1));
   strcpy(r.content, e.content);
   return r;
+}
+
+
+inline int max(int a, int b)
+{
+  return (a>b)?a:b;
 }

@@ -1,4 +1,5 @@
 #include <string.h>
+#include <stdio.h>
 #include "wiki.h"
 
 struct WikiSt {
@@ -128,4 +129,30 @@ void printWiki(Wiki w)
     printEntry(w->e); // Prints the tree is order
     printWiki(w->s2);
   }
+}
+
+
+void printWikiSearch(Wiki w, char * str)
+{
+  if (w) {
+    printWikiSearch(w->s1, str);
+    printEntrySearch(w->e, str); // Prints the tree is order
+    printWikiSearch(w->s2, str);
+  }
+}
+
+
+int depth(Wiki w)
+{
+  return w?max(depth(w->s1), depth(w->s2))+1:0;
+}
+
+int leafCount(Wiki w)
+{
+  return w?leafCount(w->s1)+leafCount(w->s2):1;
+}
+
+void stats(Wiki w)
+{
+  printf("depth: %d\nleaves: %d\n", depth(w), leafCount(w));
 }
