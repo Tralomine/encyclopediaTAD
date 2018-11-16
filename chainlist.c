@@ -1,7 +1,7 @@
 #include "wiki.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h> // needed for strstr function in our "searchTxt" function
+#include <string.h> // needed for strstr function in the "searchTxt" function
 
 struct WikiSt {
   Entry entry;
@@ -17,7 +17,6 @@ Wiki createWiki()
 /* The function "insert" creates a new link NewWiki, allocates enough memory for a new Link,
    fills its entry with the wanted value e, then links the NewWiki's adress to the rest
    of the chain */
-
 Wiki insert(Wiki w, Entry  e)
 {
   Wiki newWiki;
@@ -30,7 +29,7 @@ Wiki insert(Wiki w, Entry  e)
 
 Wiki del(Wiki w, Id id)
 {
-  int first = 1;
+  bool first = true; // used to know if the selected link is the first of the chainlist
   /* The function "del" first creates a new Wiki mem, that will be returned at the end once the
   wanted link will have been deleted.  */
   Wiki mem = w;
@@ -39,11 +38,11 @@ Wiki del(Wiki w, Id id)
     if (w->entry.id != id) {
       prev = w; // prev is used to keep in memory the previous link while the link to delete has not been reached
       w = w->next;
-      first = 0;
+      first = false; // if the instructions of this loop are used even once, first switches to false
     } else {
       w->entry.title = NULL; // once it has been reached, the function deletes both its title...
       w->entry.content = NULL; // ... and its content
-      if (first == 1) { // if the selected link is the first of the loop
+      if (first == true) { // if the selected link is the first of the loop
         prev = w->next;
       } else {
         prev->next = w->next; // then it links the rest of the chain back together
@@ -59,10 +58,10 @@ Wiki del(Wiki w, Id id)
 Entry search(Wiki w, Id id)
 {
   while (w->entry.id != id && w != NULL) {
-    w = w->next;
+    w = w->next; // the function keeps scanning the list as long as the selected link or an empty link has not been found
   }
   if (w == NULL) {
-    Entry e; // if the wiki is empty, returns an empty entry created on the spot
+    Entry e; // if the wiki is empty, it returns an empty entry created on the spot
     e.id = 0;
     return e;
   }
@@ -73,9 +72,9 @@ Wiki searchTxt(Wiki w, char* txt)
 {
   Wiki result = createWiki(); // creates an empty wiki to contain all the entries that match the search
   while (w) {
-    if (strstr(w->entry.content, txt)) {  // the function strstr returns an empty pointor if the txt is not contained in the content's entry
-                                          // as the entry's content necessarily contains the title, we do not need to check the latter
-      result = insert(result, copyEntry(w->entry)); // inserts the entry in the results
+    if (strstr(w->entry.content, txt)) { // the function strstr returns an empty pointor if the txt is not contained in the content's entry
+    // as the entry's content necessarily contains the title, we do not need to check the latter
+      result = insert(result, w->entry); // inserts the entry in the results
     }
     w = w->next;
   }
