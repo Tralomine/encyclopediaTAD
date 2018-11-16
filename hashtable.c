@@ -12,7 +12,6 @@ struct WikiSt {
   ChainedList table[TABLE_SIZE];
 };
 
-
 Wiki createWiki()
 {
   Wiki w = malloc(sizeof(struct WikiSt));
@@ -66,8 +65,9 @@ Wiki searchTxt(Wiki w, char* txt)
   for (size_t i = 0; i < TABLE_SIZE; i++) {
     ChainedList l = w->table[i];
     while (l) {
-      if (strstr(l->entry.content, txt))
-        insert(ret, l->entry);
+      if (strstr(l->entry.content, txt)) {
+        insert(ret, copyEntry(l->entry));
+      }
       l = l->next;
     }
   }
@@ -85,6 +85,7 @@ void destroy(Wiki w)
       free(tmp);
     }
   }
+  free(w);
 }
 
 void printWiki(Wiki w)
@@ -96,5 +97,4 @@ void printWiki(Wiki w)
       l = l->next;
     }
   }
-
 }

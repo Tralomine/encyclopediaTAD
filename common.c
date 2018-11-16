@@ -4,7 +4,12 @@
 #include "wiki.h"
 
 void printEntry(Entry e) {
-  printf("%lu: %s\n\t %s\n\n", e.id, e.title, e.content+(e.id?strlen(e.title)+2:0)); //removing the title that start the article
+  printf("%lu: %s\n\t %s\n\n",
+                              e.id,
+                              e.title,
+                              e.content+(e.id?strlen(e.title)+2:0)
+                              //removing the title that starts the article
+                              );
 }
 
 Wiki loadFile(char* file) {
@@ -48,4 +53,16 @@ void freeEntry(Entry e)
   free(e.content);
   free(e.title);
   memset(&e, 0, sizeof(Entry));
+}
+
+
+Entry copyEntry(Entry e)
+{
+  Entry r;
+  r.id = e.id;
+  r.title = malloc(sizeof(char)*(strlen(e.title)+1));
+  strcpy(r.title, e.title);
+  r.content = malloc(sizeof(char)*(strlen(e.content)+1));
+  strcpy(r.content, e.content);
+  return r;
 }

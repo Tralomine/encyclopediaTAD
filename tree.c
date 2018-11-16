@@ -6,7 +6,6 @@ struct WikiSt {
   Wiki s1, s2;
 };
 
-
 Wiki createWiki()
 {
   return NULL;
@@ -92,7 +91,7 @@ Wiki insertSearchTxtWiki(Wiki w, Wiki ws, char* txt)
 {
   if (ws) {
     if (strstr(ws->e.content, txt)) {
-      w = insert(w, ws->e);
+      w = insert(w, copyEntry(w->e));
     }
     w = insertSearchTxtWiki(w, ws->s1, txt);
     w = insertSearchTxtWiki(w, ws->s2, txt);

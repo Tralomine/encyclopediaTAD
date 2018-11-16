@@ -38,3 +38,5 @@ void printEntry(Entry e);
 void freeEntry(Entry e);
 
 Wiki loadFile(char* file);
+
+Entry copyEntry(Entry e);

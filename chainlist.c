@@ -73,9 +73,9 @@ Wiki searchTxt(Wiki w, char* txt)
 {
   Wiki result = createWiki(); // creates an empty wiki to contain all the entries that match the search
   while (w) {
-    if (strstr(w->entry.content, txt)) { // the function strstr returns an empty pointor if the txt is not contained in the content's entry
-    // as the entry's content necessarily contains the title, we do not need to check the latter
-      result = insert(result, w->entry); // inserts the entry in the results
+    if (strstr(w->entry.content, txt)) {  // the function strstr returns an empty pointor if the txt is not contained in the content's entry
+                                          // as the entry's content necessarily contains the title, we do not need to check the latter
+      result = insert(result, copyEntry(w->entry)); // inserts the entry in the results
     }
     w = w->next;
   }

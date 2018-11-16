@@ -5,21 +5,21 @@
 
 int main(int argc, char const *argv[]) {
 
-  Wiki w = loadFile("wikipedia_500.dat");
+  Wiki w = loadFile("B46_wikipedia_500K_random.dat");
 
   printf("===========================================\n");
   printf("printing entry 4315895\n\n");
   printEntry(search(w, 4315895));
 
   printf("===========================================\n");
-  printf("searching for Syrie in all articles\n\n");
-  Wiki searchResult = searchTxt(w, "Syrie");
+  printf("searching for Evangelion in all articles\n\n");
+  Wiki searchResult = searchTxt(w, "Evangelion");
   printWiki(searchResult);
 
   printf("===========================================\n");
   printf("deleting element 6390869\n\n");
   del(searchResult, 6390869);
-  printWiki(searchResult);
+  // printWiki(searchResult);
 
   destroy(w);
   destroy(searchResult);
