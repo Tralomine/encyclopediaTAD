@@ -5,7 +5,8 @@
 
 int main(int argc, char const *argv[]) {
 
-  Wiki w = loadFile("B46_wikipedia_500K_random.dat");
+  Wiki w = loadFile("wikipedia_500.dat");
+  // Wiki w = loadFile("B46_wikipedia_500K_random.dat");
 
   printf("===========================================\n");
   printf("printing entry 4315895\n\n");

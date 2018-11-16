@@ -15,7 +15,7 @@ struct WikiSt {
 Wiki createWiki()
 {
   Wiki w = malloc(sizeof(struct WikiSt));
-  memset(w->table, 0, TABLE_SIZE);
+  memset(w->table, 0, TABLE_SIZE*sizeof(ChainedList));
   return w;
 }
 

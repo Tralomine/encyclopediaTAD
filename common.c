@@ -20,23 +20,32 @@ Wiki loadFile(char* file) {
   if (fp!=NULL) {
 
     char c = 0;
-    long start;
-    long i = 0;
+    long start, size;
     do {
       Entry e;
       fscanf(fp, "%lu", &(e.id));
 
       fgetc(fp);  //eating the first '|'
 
-      for (i = ftell(fp), start = i; c != '|' && c != EOF; i++, c = getc(fp)){}
-      e.title = calloc(i-start, sizeof(char));
-      fseek(fp, start, SEEK_SET);
-      fread(e.title, sizeof(char), i-start-1, fp);
-      fgetc(fp); //eating the '|'
-      for (i = ftell(fp), start = i; c != '\n' && c != EOF; i++, c = getc(fp)){}
-      e.content = calloc(i-start, sizeof(char));
-      fseek(fp, start, SEEK_SET);
-      fread(e.content, sizeof(char), i-start, fp);
+      for (start = ftell(fp); c != '|' && c != EOF; c = getc(fp)){}
+      if (c != EOF) {
+        size = ftell(fp)-start;
+        e.title = calloc(size+1, sizeof(char));
+        fseek(fp, start, SEEK_SET);
+        fread(e.title, sizeof(char), size-1, fp);
+      } else {
+        e.id = 0;
+      }
+
+      for (start = ftell(fp); c != '\n' && c != EOF; c = getc(fp)){}
+      if (c != EOF) {
+        size = ftell(fp)-start;
+        e.content = calloc(size+1, sizeof(char));
+        fseek(fp, start, SEEK_SET);
+        fread(e.content, sizeof(char), size-1, fp);
+      } else {
+        e.id = 0;
+      }
 
       wiki = insert(wiki, e);
 
@@ -47,16 +56,16 @@ Wiki loadFile(char* file) {
   return wiki;
 }
 
-
 void freeEntry(Entry e)
 {
-  free(e.content);
-  free(e.title);
-  memset(&e, 0, sizeof(Entry));
+  if (e.id) {
+    free(e.content);
+    free(e.title);
+    memset(&e, 0, sizeof(Entry));
+  }
 }
 
-
-Entry copyEntry(Entry e)
+inline Entry copyEntry(Entry e)
 {
   Entry r;
   r.id = e.id;
