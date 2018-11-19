@@ -150,7 +150,15 @@ int leafCount(Wiki w)
   return w?(w->s1||w->s2)?leafCount(w->s1)+leafCount(w->s2):1:0;
 }
 
+int sumLeafDepth(Wiki w)
+{
+  return w?sumLeafDepth(w->s2)+leafCount(w)+sumLeafDepth(w->s1):0;
+}
+
 void stats(Wiki w)
 {
-  printf("depth: %d\nleaves: %d\n", depth(w), leafCount(w));
+  printf("depth: %d\nleaves: %d\nAverage leaf depth: %f\n",
+                                                  depth(w),
+                                              leafCount(w),
+                      (float)sumLeafDepth(w)/leafCount(w));
 }

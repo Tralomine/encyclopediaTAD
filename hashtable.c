@@ -128,5 +128,5 @@ void stats(Wiki w)
       if (cur > longuestList) longuestList = cur;
     }
   }
-  printf("size: %d\nfilled cells: %d\nlonguest list: %d\n", TABLE_SIZE, filledCells, longuestList);
+  printf("filled cells: %d/%d\nlonguest list: %d\n", filledCells, TABLE_SIZE, longuestList);
 }

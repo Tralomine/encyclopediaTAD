@@ -1,15 +1,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 #include "wiki.h"
 
 void printEntry(Entry e) {
-  printf("%lu: %s\n\t %s\n\n",
-                              e.id,
-                              e.title,
-                              e.content+(e.id?strlen(e.title)+2:0)
-                              // removing the title that starts the article
-                              );
+  printf("%lu: %s\n\n", e.id, e.content);
 }
 
 
@@ -70,6 +66,7 @@ Wiki loadFile(char* file) {
         e.content = calloc(size+1, sizeof(char)); // allocates memory for the content
         fseek(fp, -size+1, SEEK_CUR); // rewinds to beginning of content, +1 to skip "| "
         fread(e.content, sizeof(char), size-1, fp); // reads and copies content into e.content
+        e.content[strlen(e.title)] = ':';
       }
 
       wiki = insert(wiki, e);
@@ -107,4 +104,12 @@ inline Entry copyEntry(Entry e) // cut & paste
 inline int max(int a, int b)
 {
   return (a>b)?a:b;
+}
+
+
+unsigned long getTime()
+{
+  struct timespec ts;
+  timespec_get(&ts, TIME_UTC);
+  return 1000000000L * ts.tv_sec + ts.tv_nsec;
 }

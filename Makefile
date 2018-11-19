@@ -1,10 +1,10 @@
 COMP := gcc
 FLAGS := -std=c11 -g -Wall -Wpedantic
 
-all: tree chainlist hashtable
+all: tree linkedlist hashtable
 
-chainlist:
-	${COMP} main.c chainlist.c -o chainlist.exe ${FLAGS}
+linkedlist:
+	${COMP} main.c linkedlist.c -o linkedlist.exe ${FLAGS}
 
 tree:
 	${COMP} main.c tree.c -o tree.exe ${FLAGS}
