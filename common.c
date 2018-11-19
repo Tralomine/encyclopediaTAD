@@ -8,7 +8,7 @@ void printEntry(Entry e) {
                               e.id,
                               e.title,
                               e.content+(e.id?strlen(e.title)+2:0)
-                              //removing the title that starts the article
+                              // removing the title that starts the article
                               );
 }
 
@@ -22,7 +22,7 @@ void printEntrySearch(Entry e, char* str)
     if (found > endOfLast) {
       int length2 = found-endOfLast;
       printf("%*.*s", length2, length2, endOfLast);
-      printf("\x1b[31m%*.*s\x1b[0m", length, length, found);
+      printf("\x1b[31m%*.*s\x1b[0m", length, length, found); // sets the text corresponding to search in red
       found += length;
       endOfLast = found;
     }
@@ -59,30 +59,30 @@ Wiki loadFile(char* file) {
     do {
       if (!(i%10000)) {
          putc('.', stdout);
-         fflush(stdout);
+         fflush(stdout); // prints a dot each 10000 entries analyzed
       }
 
       Entry e;
-      fscanf(fp, "%lu", &(e.id));
+      fscanf(fp, "%lu", &(e.id)); // scans the ID
 
-      if (fgetc(fp) == EOF) break;  //eating the first '|'
+      if (fgetc(fp) == EOF) break;  // eating the first '|'
 
-      for (start = ftell(fp); c != '|' && c != EOF; c = (char)getc(fp)){}
+      for (start = ftell(fp); c != '|' && c != EOF; c = (char)getc(fp)){} // gets to the end of title
       if (c != EOF) {
-        size = (unsigned)(ftell(fp)-start);
-        e.title = calloc(size+1, sizeof(char));
-        fseek(fp, start, SEEK_SET);
-        fread(e.title, sizeof(char), size-1, fp);
+        size = (unsigned)(ftell(fp)-start); // calculates size of title
+        e.title = calloc(size+1, sizeof(char)); // allocates memory for the title
+        fseek(fp, -(size+1), SEEK_CUR); // rewinds to beginning of title
+        fread(e.title, sizeof(char), size-1, fp); // reads and copies title into e.title
       }
       fgetc(fp);
       fgetc(fp);
 
-      for (start = ftell(fp); c != '\n' && c != EOF; c = (char)getc(fp)){}
+      for (start = ftell(fp); c != '\n' && c != EOF; c = (char)getc(fp)){} // gets to the end of content
       if (c != EOF) {
-        size = (unsigned)(ftell(fp)-start);
-        e.content = calloc(size+1, sizeof(char));
-        fseek(fp, start, SEEK_SET);
-        fread(e.content, sizeof(char), size-1, fp);
+        size = (unsigned)(ftell(fp)-start); // calculates size of content
+        e.content = calloc(size+1, sizeof(char)); // allocates memory for the content
+        fseek(fp, -(size+1), SEEK_CUR); // rewinds to beginning of content
+        fread(e.content, sizeof(char), size-1, fp); // reads and copies content into e.content
       }
 
       wiki = insert(wiki, e);
@@ -105,7 +105,7 @@ void freeEntry(Entry e)
   }
 }
 
-inline Entry copyEntry(Entry e)
+inline Entry copyEntry(Entry e) // cut & paste
 {
   Entry r;
   r.id = e.id;
