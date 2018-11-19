@@ -2,10 +2,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include "wiki.h"
 #ifdef __WIN32
   #include <winsock.h>
 #endif
-#include "wiki.h"
 
 void printEntry(Entry e) {
   printf("%lu: %s\n\n", e.id, e.content);
