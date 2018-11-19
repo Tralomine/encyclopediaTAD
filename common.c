@@ -19,7 +19,7 @@ void printEntrySearch(Entry e, char* str)
       int length2 = found-endOfLast;
       if (length2)
         printf("%*.*s", length2, length2, endOfLast);
-      printf("\x1b[31m%*.*s\x1b[0m", length, length, found);
+      printf("\x1b[31m%*.*s\x1b[0m", length, length, found); // sets the text corresponding to search in red
       found += length;
       endOfLast = found;
     }
