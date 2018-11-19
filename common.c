@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#ifdef __WIN32
+  #include <winsock.h>
+#endif
 #include "wiki.h"
 
 void printEntry(Entry e) {
@@ -109,7 +112,13 @@ inline int max(int a, int b)
 
 unsigned long getTime()
 {
+#ifndef __WIN32
   struct timespec ts;
   timespec_get(&ts, TIME_UTC);
   return 1000000000L * ts.tv_sec + ts.tv_nsec;
+#else
+  struct timeval tv;
+  gettimeofday(&tv,NULL);
+  return 1000000000L * tv.tv_sec + 1000 * tv.tv_usec;
+#endif
 }
