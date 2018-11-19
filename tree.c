@@ -7,7 +7,6 @@ struct WikiSt {
   Wiki s1, s2;
 };
 
-// The function "createWiki" merely returns an empty Wiki, that is, a pointer whose adress is NULL.
 Wiki createWiki()
 {
   return NULL;
@@ -15,14 +14,14 @@ Wiki createWiki()
 
 Wiki insert(Wiki w, Entry e)
 {
-  if (w) { // This part of the function works until an empty leaf has been found
-    if (w->e.id > e.id) { // To ensure the validity of the binary search tree
+  if (w) { // empty leaf
+    if (w->e.id > e.id) { // finds element
       w->s1 = insert(w->s1, e);
     } else {
       w->s2 = insert(w->s2, e);
     }
   } else {
-    w = malloc(sizeof(struct WikiSt)); // Once it has been found, it creates the leaf according to the e entry
+    w = malloc(sizeof(struct WikiSt)); // creates leaf
     w->e = e;
     w->s1 = NULL;
     w->s2 = NULL;
@@ -33,12 +32,11 @@ Wiki insert(Wiki w, Entry e)
 Wiki del(Wiki w, Id id)
 {
   if (w) {
-    if (w->e.id > id) { // This part of the function works until it finds the node to be deleted
+    if (w->e.id > id) {
       w->s1 = del(w->s1, id);
     } else if (w->e.id < id) {
       w->s2 = del(w->s2, id);
     } else {
-      // Then, it proceeds with the deletion of the node
       Wiki replace = w->s2;
         // Case where s2 doesn't exist
       if (!replace) {
@@ -81,10 +79,10 @@ Entry search(Wiki w, Id id)
     } else if (w->e.id < id) {
       return search(w->s2, id);
     } else {
-      return w->e; // Returns the selected entry when it has been found
+      return w->e;
     }
   } else {
-    Entry e = {0}; // Creates an empty entry on the spot if the id has not been found
+    Entry e = {0};
     return e;
   }
 }
@@ -93,7 +91,7 @@ Wiki insertSearchTxtWiki(Wiki w, Wiki ws, char* txt);
 
 Wiki searchTxt(Wiki w, char* txt)
 {
-  Wiki ret = createWiki(); // Creates an empty wiki which will contain all the entries that match our search
+  Wiki ret = createWiki();
   return insertSearchTxtWiki(ret, w, txt);
 }
 
@@ -126,7 +124,7 @@ void printWiki(Wiki w)
 {
   if (w) {
     printWiki(w->s1);
-    printEntry(w->e); // Prints the tree is order
+    printEntry(w->e); // infixe order
     printWiki(w->s2);
   }
 }
@@ -136,7 +134,7 @@ void printWikiSearch(Wiki w, char * str)
 {
   if (w) {
     printWikiSearch(w->s1, str);
-    printEntrySearch(w->e, str); // Prints the tree is order
+    printEntrySearch(w->e, str); // infixe order
     printWikiSearch(w->s2, str);
   }
 }
@@ -149,7 +147,7 @@ int depth(Wiki w)
 
 int leafCount(Wiki w)
 {
-  return w?leafCount(w->s1)+leafCount(w->s2):1;
+  return w?(w->s1||w->s2)?leafCount(w->s1)+leafCount(w->s2):1:0;
 }
 
 void stats(Wiki w)

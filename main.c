@@ -10,19 +10,18 @@ int main() {
 
   printf("===========================================\n");
   printf("printing entry 502098\n\n");
-  printEntry(search(w, 502098));
+  printEntrySearch(search(w, 502098), "Second impact");
 
   printf("===========================================\n");
   printf("searching for Neon Genesis Evangelion in all articles\n\n");
   Wiki searchResult = searchTxt(w, "Neon Genesis Evangelion");
-  printWiki(searchResult);
+  printWikiSearch(searchResult, "Neon Genesis Evangelion");
 
   printf("===========================================\n");
   printf("deleting element 502098 from search results\n\n");
   del(searchResult, 502098);
 
   destroy(searchResult);
-  // printWikiSearch(searchResult, "Neon Genesis Evangelion");
 
   stats(w);
 
