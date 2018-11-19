@@ -4,12 +4,7 @@
 #include "wiki.h"
 
 void printEntry(Entry e) {
-  printf("%lu: %s\n\t %s\n\n",
-                              e.id,
-                              e.title,
-                              e.content+(e.id?strlen(e.title)+2:0)
-                              // removing the title that starts the article
-                              );
+  printf("%lu: %s\n\n", e.id, e.content);
 }
 
 
@@ -23,7 +18,7 @@ void printEntrySearch(Entry e, char* str)
       int length2 = found-endOfLast;
       if (length2)
         printf("%*.*s", length2, length2, endOfLast);
-      printf("\x1b[31m%*.*s\x1b[0m", length, length, found);
+      printf("\x1b[31m%*.*s\x1b[0m", length, length, found); // sets the text corresponding to search in red
       found += length;
       endOfLast = found;
     }
@@ -70,6 +65,7 @@ Wiki loadFile(char* file) {
         e.content = calloc(size+1, sizeof(char)); // allocates memory for the content
         fseek(fp, -size+1, SEEK_CUR); // rewinds to beginning of content, +1 to skip "| "
         fread(e.content, sizeof(char), size-1, fp); // reads and copies content into e.content
+        e.content[strlen(e.title)] = ':';
       }
 
       wiki = insert(wiki, e);
