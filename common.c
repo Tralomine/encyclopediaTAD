@@ -16,32 +16,19 @@ void printEntry(Entry e) {
 void printEntrySearch(Entry e, char* str)
 {
   int length = strlen(str);
-  char* found = e.title;
+  char* found = e.content;
   char* endOfLast = found;
   while ((found = strstr(found, str))) {
-    if (found > endOfLast) {
+    if (found >= endOfLast) {
       int length2 = found-endOfLast;
-      printf("%*.*s", length2, length2, endOfLast);
-      printf("\x1b[31m%*.*s\x1b[0m", length, length, found); // sets the text corresponding to search in red
-      found += length;
-      endOfLast = found;
-    }
-  }
-  printf("%s", endOfLast);
-  printf(": ");
-  found = e.content + strlen(e.title)+2;
-  endOfLast = found;
-  while ((found = strstr(found, str))) {
-    if (found > endOfLast) {
-      int length2 = found-endOfLast;
-      printf("%*.*s", length2, length2, endOfLast);
+      if (length2)
+        printf("%*.*s", length2, length2, endOfLast);
       printf("\x1b[31m%*.*s\x1b[0m", length, length, found);
       found += length;
       endOfLast = found;
     }
   }
   printf("%s\n\n", endOfLast);
-  // printf("%s: %s\n\n",e.title, e.content+(e.id?strlen(e.title)+2:0));
 }
 
 
@@ -81,7 +68,7 @@ Wiki loadFile(char* file) {
       if (c != EOF) {
         size = (unsigned)(ftell(fp)-start); // calculates size of content
         e.content = calloc(size+1, sizeof(char)); // allocates memory for the content
-        fseek(fp, -(size+1), SEEK_CUR); // rewinds to beginning of content
+        fseek(fp, -size+1, SEEK_CUR); // rewinds to beginning of content, +1 to skip "| "
         fread(e.content, sizeof(char), size-1, fp); // reads and copies content into e.content
       }
 
