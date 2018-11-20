@@ -2,9 +2,30 @@
 
 #include <stdlib.h>
 
+// utility
 typedef int bool;
 #define true 1
 #define false 0
+
+#ifndef __WIN32
+  #define RED "\x1b[38;2;205;0;0m"
+  #define ORANGE "\x1b[1m\x1b[38;2;252;127;0m"
+  #define CYAN "\x1b[38;2;20;240;240m"
+  #define LAVENDER "\x1b[1m\x1b[38;2;181;126;220m"
+  #define GREEN "\x1b[38;2;0;255;0m"
+  #define BOLD "\x1b[1m"
+  #define RF "\x1b[0m"
+#else // ANSI color code aren't supported on windows
+  #define RED ""
+  #define ORANGE ""
+  #define CYAN ""
+  #define LAVENDER ""
+  #define GREEN ""
+  #define BOLD ""
+  #define RF ""
+#endif
+
+// TAD encyclopedia
 
 typedef size_t Id;
 

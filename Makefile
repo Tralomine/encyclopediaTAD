@@ -1,5 +1,5 @@
-COMP := gcc
-FLAGS := -std=c11 -g -Wall -Wpedantic
+COMP := clang
+FLAGS := -std=c11 -g -Weverything
 
 all: tree linkedlist hashtable
 

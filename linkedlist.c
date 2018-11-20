@@ -26,24 +26,18 @@ Wiki insert(Wiki w, Entry  e)
   return newWiki;
 }
 
-
 Wiki del(Wiki w, Id id)
 {
   bool first = true; // used to know if the selected link is the first of the chainlist
-  /* The function "del" first creates a new Wiki mem, that will be returned at the end once the
-  wanted link will have been deleted.  */
-  Wiki mem = w;
-  Wiki prev = w; // used to link the rest of the chained list after the removal of the wanted link
+  Wiki mem = w, prev = w; // used to link the rest of the chained list after the removal of the wanted link
   while (w) {
     if (w->entry.id != id) {
       prev = w; // prev is used to keep in memory the previous link while the link to delete has not been reached
       w = w->next;
       first = false; // if the instructions of this loop are used even once, first switches to false
     } else {
-      w->entry.title = NULL; // once it has been reached, the function deletes both its title...
-      w->entry.content = NULL; // ... and its content
-      if (first == true) { // if the selected link is the first of the loop
-        prev = w->next;
+      if (first) { // if the selected link is the first of the loop
+        mem = w->next;
       } else {
         prev->next = w->next; // then it links the rest of the chain back together
       }
@@ -107,8 +101,9 @@ void printWikiSearch(Wiki w, char* str)
   }
 }
 
-
 void stats(Wiki w)
 {
-  if (w) return;
+  int c = 0;
+  for (c = 0; w; c++, w = w->next){}
+  printf("list size: "GREEN"%d"RF"", c);
 }

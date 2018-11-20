@@ -4,49 +4,70 @@
 
 #include "common.c"
 
-
 int main() {
 
-  // Wiki w = loadFile("wikipedia_500.dat");
   unsigned long start = getTime();
+  // Wiki w = loadFile("wikipedia_500.dat");
   Wiki w = loadFile("B46_wikipedia_500K_random.dat");
-  printf("\nload time: %f\n", (getTime()-start)/1000000000.0);
+  printf("\nload time: ");
+  printTime((getTime()-start));
 
-  printf("===========================================\n");
-  printf("printing entry 502098\n\n");
+  printf(BOLD"\n===========================================\n"RF);
+  printf("printing entry "CYAN"#502098"RF"\n");
   start = getTime();
   printEntrySearch(search(w, 502098), "Second impact");
-  printf("search time: %f\n", (getTime()-start)/1000000000.0);
+  printf("search time: ");
+  printTime((getTime()-start));
 
-  printf("===========================================\n");
-  printf("searching for Neon Genesis Evangelion in all articles\n\n");
+  printf(BOLD"\n===========================================\n"RF);
+  char* searchStr = "Neon Genesis Evangelion";
+  printf("searching for "ORANGE"%s"RF" in all articles\n\n", searchStr);
   start = getTime();
-  Wiki searchResult = searchTxt(w, "Neon Genesis Evangelion");
-  printf("search time: %f\n", (getTime()-start)/1000000000.0);
-  printWikiSearch(searchResult, "Neon Genesis Evangelion");
+  Wiki searchResult = searchTxt(w, searchStr);
+  printf("search time: ");
+  printTime((getTime()-start));
+  // printWikiSearch(searchResult, searchStr);
 
-  printf("===========================================\n");
-  printf("deleting element #502098 from search results\n");
+  printf(BOLD"\n===========================================\n"RF);
+  printf("deleting element "CYAN"#502098"RF" from search results\n");
   start = getTime();
-  del(searchResult, 502098);
-  printf("delete time: %f\n", (getTime()-start)/1000000000.0);
+  searchResult = del(searchResult, 502098);
+  printf("delete time: ");
+  printTime((getTime()-start));
 
-  printf("===========================================\n");
-  printf("deleting element #11342306 from wiki\n");
+  printf(BOLD"\n===========================================\n"RF);
+  // 11218729: 17th Vermont Infantry, first element inserted
+  printf("printing element "CYAN"#11218729"RF"("GREEN"first inserted"RF") from wiki\n");
+  printEntry(search(w, 11218729));
+  printf("deleting element "CYAN"#11218729"RF"("GREEN"first inserted"RF") from wiki\n");
+  w = del(w, 11218729);
+
+  // 10619657: Didac Ortega, last element inserted
+  printf("\nprinting element "CYAN"#10619657"RF"("GREEN"last inserted"RF") from wiki\n");
+  printEntry(search(w, 10619657));
+  printf("deleting element "CYAN"#10619657"RF"("GREEN"last inserted"RF") from wiki\n");
+  w = del(w, 10619657);
+
+  printf(BOLD"\n===========================================\n"RF);
+  printf("deleting element "CYAN"#11342306"RF" from wiki\n");
   start = getTime();
   del(w, 11342306);
-  printf("delete time: %f\n", (getTime()-start)/1000000000.0);
+  printf("delete time: ");
+  printTime((getTime()-start));
 
+  printf(BOLD"\n===========================================\n"RF);
   printf("\nstats search results:\n");
   stats(searchResult);
   destroy(searchResult);
 
   printf("\nstats full wiki:\n");
-  start = getTime();
   stats(w);
-  printf("destroy time: %f\n", (getTime()-start)/1000000000.0);
-
+  start = getTime();
   destroy(w);
+  printf("\ndestroy time: ");
+  printTime((getTime()-start));
+
+  printf("\n");
 
   return 0;
 }

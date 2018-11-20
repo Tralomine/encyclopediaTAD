@@ -4,14 +4,20 @@
 #include <time.h>
 #include "wiki.h"
 
-void printEntry(Entry e) {
-  printf("%lu: %s\n\n", e.id, e.content);
-}
 
+void printEntry(Entry e) {
+  int length = (int)strlen(e.title);
+  printf(CYAN"%lu"RF"\n"ORANGE"%*.*s"RF"%s",
+         e.id, length, length, e.content, &(e.content[length]));
+}
 
 void printEntrySearch(Entry e, char* str)
 {
-  printf("\x1b[96m%lu\x1b[0m\n", e.id);
+  if (!e.id) {
+    printf("Empty entry.\n");
+    return;
+  }
+  printf(""CYAN"%lu"RF"\n", e.id);
   int length = (int)strlen(str);
   char* found = e.content;
   char* endOfLast = found;
@@ -20,17 +26,19 @@ void printEntrySearch(Entry e, char* str)
       int length2 = (int)(found-endOfLast);
       if (length2)
         printf("%*.*s", length2, length2, endOfLast);
-      printf("\x1b[31m%*.*s\x1b[0m", length, length, found); // sets the text corresponding to search in red
+      printf(RED"%*.*s"RF, length, length, found); // sets the text corresponding to search in red
       found += length;
       endOfLast = found;
     }
   }
-  printf("%s\n\n", endOfLast);
+  printf("%s\n", endOfLast);
 }
 
 
 Wiki loadFile(char* file) {
   Wiki wiki = createWiki();
+
+  printf("Loading");
 
   FILE *fp;
   fp = fopen (file,"r");
@@ -74,7 +82,7 @@ Wiki loadFile(char* file) {
       i++;
     } while (c != EOF);
 
-    printf("loaded %d entries\n", i);
+    printf("\nloaded %d entries\n", i);
 
     fclose (fp);
   }
@@ -108,6 +116,7 @@ inline int max(int a, int b)
 }
 
 unsigned long getTime(void);
+void printTime(unsigned long ns);
 
 unsigned long getTime(void)
 {
@@ -118,4 +127,17 @@ unsigned long getTime(void)
 #else
   return 0;
 #endif
+}
+
+void printTime(unsigned long ns)
+{
+  if (ns < 1000) {
+    printf(LAVENDER"%lu"RF" ns", ns);
+  } else if (ns < 1000000) {
+    printf(LAVENDER"%f"RF" µs", ns/1000.0);
+  } else if (ns < 1000000000) {
+    printf(LAVENDER"%f"RF" ms", ns/1000000.0);
+  } else {
+    printf(LAVENDER"%f"RF" s", ns/1000000000.0);
+  }
 }

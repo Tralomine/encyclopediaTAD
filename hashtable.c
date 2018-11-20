@@ -116,17 +116,22 @@ void stats(Wiki w)
 {
   int filledCells = 0;
   int longuestList = 0;
+  int size = 0;
   ChainedList l;
   for (size_t i = 0; i < TABLE_SIZE; i++) {
     if ((l = w->table[i])) {
       filledCells++;
       int cur = 0;
       while (l) {
+        size++;
         cur++;
         l = l->next;
       }
       if (cur > longuestList) longuestList = cur;
     }
   }
-  printf("filled cells: %d/%d\nlonguest list: %d\n", filledCells, TABLE_SIZE, longuestList);
+  printf("filled cells: "GREEN"%d"RF"/"GREEN"%d"RF
+                    "\nlonguest list: "GREEN"%d"RF
+           "\nNumber of elements: "GREEN"%d"RF"\n",
+      filledCells, TABLE_SIZE, longuestList, size);
 }
