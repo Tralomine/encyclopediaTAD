@@ -110,5 +110,5 @@ void printWikiSearch(Wiki w, char* str)
 
 void stats(Wiki w)
 {
-  
+  if (w) return;
 }

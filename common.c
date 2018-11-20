@@ -3,9 +3,6 @@
 #include <string.h>
 #include <time.h>
 #include "wiki.h"
-#ifdef __WIN32
-  #include <winsock.h>
-#endif
 
 void printEntry(Entry e) {
   printf("%lu: %s\n\n", e.id, e.content);
@@ -14,12 +11,13 @@ void printEntry(Entry e) {
 
 void printEntrySearch(Entry e, char* str)
 {
-  int length = strlen(str);
+  printf("\x1b[96m%lu\x1b[0m\n", e.id);
+  int length = (int)strlen(str);
   char* found = e.content;
   char* endOfLast = found;
   while ((found = strstr(found, str))) {
     if (found >= endOfLast) {
-      int length2 = found-endOfLast;
+      int length2 = (int)(found-endOfLast);
       if (length2)
         printf("%*.*s", length2, length2, endOfLast);
       printf("\x1b[31m%*.*s\x1b[0m", length, length, found); // sets the text corresponding to search in red
@@ -56,8 +54,8 @@ Wiki loadFile(char* file) {
       for (start = ftell(fp); c != '|' && c != EOF; c = (char)getc(fp)){} // gets to the end of title
       if (c != EOF) {
         size = (unsigned)(ftell(fp)-start); // calculates size of title
-        e.title = calloc(size+1, sizeof(char)); // allocates memory for the title
-        fseek(fp, -(size+1), SEEK_CUR); // rewinds to beginning of title
+        e.title = calloc(size+1, sizeof(char));
+        fseek(fp, -(long)size-1, SEEK_CUR); // rewinds to beginning of title
         fread(e.title, sizeof(char), size-1, fp); // reads and copies title into e.title
       }
       fgetc(fp);
@@ -66,8 +64,8 @@ Wiki loadFile(char* file) {
       for (start = ftell(fp); c != '\n' && c != EOF; c = (char)getc(fp)){} // gets to the end of content
       if (c != EOF) {
         size = (unsigned)(ftell(fp)-start); // calculates size of content
-        e.content = calloc(size+1, sizeof(char)); // allocates memory for the content
-        fseek(fp, -size+1, SEEK_CUR); // rewinds to beginning of content, +1 to skip "| "
+        e.content = calloc(size+1, sizeof(char));
+        fseek(fp, -(long)size+1, SEEK_CUR); // rewinds to beginning of content, +1 to skip "| "
         fread(e.content, sizeof(char), size-1, fp); // reads and copies content into e.content
         e.content[strlen(e.title)] = ':';
       }
@@ -109,16 +107,15 @@ inline int max(int a, int b)
   return (a>b)?a:b;
 }
 
+unsigned long getTime(void);
 
-unsigned long getTime()
+unsigned long getTime(void)
 {
 #ifndef __WIN32
   struct timespec ts;
   timespec_get(&ts, TIME_UTC);
-  return 1000000000L * ts.tv_sec + ts.tv_nsec;
+  return (unsigned)(1000000000L * ts.tv_sec + ts.tv_nsec);
 #else
-  struct timeval tv;
-  gettimeofday(&tv,NULL);
-  return 1000000000L * tv.tv_sec + 1000 * tv.tv_usec;
+  return 0;
 #endif
 }

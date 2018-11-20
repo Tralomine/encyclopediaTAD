@@ -139,6 +139,17 @@ void printWikiSearch(Wiki w, char * str)
   }
 }
 
+int depth(Wiki w);
+int leafCount(Wiki w);
+int sumLeafDepth(Wiki w);
+
+void stats(Wiki w)
+{
+  printf("depth: %d\nleaves: %d\nAverage leaf depth: %f\n",
+                                                  depth(w),
+                                              leafCount(w),
+                    (double)(sumLeafDepth(w)/leafCount(w)));
+}
 
 int depth(Wiki w)
 {
@@ -153,12 +164,4 @@ int leafCount(Wiki w)
 int sumLeafDepth(Wiki w)
 {
   return w?sumLeafDepth(w->s2)+leafCount(w)+sumLeafDepth(w->s1):0;
-}
-
-void stats(Wiki w)
-{
-  printf("depth: %d\nleaves: %d\nAverage leaf depth: %f\n",
-                                                  depth(w),
-                                              leafCount(w),
-                      (float)sumLeafDepth(w)/leafCount(w));
 }
