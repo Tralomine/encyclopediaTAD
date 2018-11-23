@@ -15,7 +15,7 @@ int main() {
   printf(BOLD"\n===========================================\n"RF);
   printf("printing entry "CYAN"#502098"RF"\n");
   start = getTime();
-  printEntrySearch(search(w, 502098), "Second impact");
+  printEntrySearch(search(w, 502098), "second impact");
   printf("search time: ");
   printTime((getTime()-start));
 
@@ -26,7 +26,8 @@ int main() {
   Wiki searchResult = searchTxt(w, searchStr);
   printf("search time: ");
   printTime((getTime()-start));
-  // printWikiSearch(searchResult, searchStr);
+  printf("\nPrinting ALL RESULTS...\n");
+  printWikiSearch(searchResult, searchStr);
 
   printf(BOLD"\n===========================================\n"RF);
   printf("deleting element "CYAN"#502098"RF" from search results\n");
@@ -38,14 +39,20 @@ int main() {
   printf(BOLD"\n===========================================\n"RF);
   // 11218729: 17th Vermont Infantry, first element inserted
   printf("printing element "CYAN"#11218729"RF"("GREEN"first inserted"RF") from wiki\n");
+  start = getTime();
   printEntry(search(w, 11218729));
-  printf("deleting element "CYAN"#11218729"RF"("GREEN"first inserted"RF") from wiki\n");
+  printf("time to get first inserted element: ");
+  printTime((getTime()-start));
+  printf("\ndeleting element "CYAN"#11218729"RF"("GREEN"first inserted"RF") from wiki\n");
   w = del(w, 11218729);
 
   // 10619657: Didac Ortega, last element inserted
   printf("\nprinting element "CYAN"#10619657"RF"("GREEN"last inserted"RF") from wiki\n");
+  start = getTime();
   printEntry(search(w, 10619657));
-  printf("deleting element "CYAN"#10619657"RF"("GREEN"last inserted"RF") from wiki\n");
+  printf("time to get last inserted element: ");
+  printTime((getTime()-start));
+  printf("\ndeleting element "CYAN"#10619657"RF"("GREEN"last inserted"RF") from wiki\n");
   w = del(w, 10619657);
 
   printf(BOLD"\n===========================================\n"RF);

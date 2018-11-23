@@ -24,8 +24,9 @@ void printEntrySearch(Entry e, char* str)
   while ((found = strstr(found, str))) {
     if (found >= endOfLast) {
       int length2 = (int)(found-endOfLast);
-      if (length2)
+      if (length2) {
         printf("%*.*s", length2, length2, endOfLast);
+      }
       printf(RED"%*.*s"RF, length, length, found); // sets the text corresponding to search in red
       found += length;
       endOfLast = found;
@@ -33,7 +34,6 @@ void printEntrySearch(Entry e, char* str)
   }
   printf("%s\n", endOfLast);
 }
-
 
 Wiki loadFile(char* file) {
   Wiki wiki = createWiki();
@@ -123,7 +123,7 @@ unsigned long getTime(void)
 #ifndef __WIN32
   struct timespec ts;
   timespec_get(&ts, TIME_UTC);
-  return (unsigned)(1000000000L * ts.tv_sec + ts.tv_nsec);
+  return (unsigned long)(1000000000L * ts.tv_sec + ts.tv_nsec);
 #else
   return 0;
 #endif
